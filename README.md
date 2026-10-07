@@ -104,23 +104,28 @@ Prerequisites
 Installation
 
 Clone the repository and install the project dependencies:
-bash
+
+```bash
 npm install
-Use code with caution.
+```
 
 Development Server
 
 Run the local development server:
+
+```bash
 npm start
-Use code with caution.
+```
 
 Once compilation finishes, open your browser and navigate to http://localhost:4200/.
 
 Validation & Testing
 
 Run the automated test suite in a single-run execution mode:
+
+```bash
 npm test -- --watch=false
-Use code with caution.
+```
 
 The test suite covers the mock API implementation, domain CRUD services, order list filtering, table interactions, reactive form validations, and dashboard KPI state ranges.
 
@@ -145,4 +150,4 @@ Note: Production concerns like persistent user databases, true server synchroniz
 
 This project was built to demonstrate practical, production-grade Angular development skills in a realistic business context rather than serving as a basic code snippet or minimal tutorial guide.
 
-The core focus remains heavily fixed on maintainable architecture scales, clean domain boundaries, decoupled UI components, strictly-typed API communication layers, advanced form handling validation, and fully testable frontend structures.
+The core focus is on maintainable, scalable architecture, clean domain boundaries, decoupled UI components, strictly typed API communication, robust form validation, and testable frontend structures.
