@@ -1,0 +1,11 @@
+<article class="stat-card">
+  <div class="stat-header">
+    <span>{{ label() }}</span>
+    <span class="stat-icon" aria-hidden="true">{{ icon() }}</span>
+  </div>
+  <strong>{{ prefix() }}{{ value() }}{{ suffix() }}</strong>
+  <small [class.negative]="change() < 0">
+    <span aria-hidden="true">{{ change() >= 0 ? '↑' : '↓' }}</span>
+    {{ change() >= 0 ? '+' : '' }}{{ change() }}% from last month
+  </small>
+</article>

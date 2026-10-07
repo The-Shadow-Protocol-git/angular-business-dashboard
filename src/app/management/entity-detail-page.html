@@ -1,0 +1,15 @@
+<section class="detail-page">
+  <a class="back-link" [routerLink]="['/', type]">← Back to {{ type }}</a>
+  @if (loading()) {
+    <div class="card state" role="status">Loading details…</div>
+  } @else if (error()) {
+    <div class="card state error" role="alert">{{ error() }} <a class="button secondary" [routerLink]="['/', type]">Return to {{ type }}</a></div>
+  } @else if (details(); as item) {
+    <section class="card">
+      <div class="detail-header"><div><p class="eyebrow">{{ item.id }}</p><h2>{{ item.title }}</h2><span class="badge" [class]="item.status.replace(' ', '-')">{{ item.status }}</span></div><a class="button primary" [routerLink]="['/', type, item.id, 'edit']">Edit {{ type.slice(0, -1) }}</a></div>
+      <dl>
+        @for (field of item.fields; track field.label) { <div><dt>{{ field.label }}</dt><dd>{{ field.value }}</dd></div> }
+      </dl>
+    </section>
+  }
+</section>

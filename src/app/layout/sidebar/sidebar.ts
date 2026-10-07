@@ -1,0 +1,18 @@
+import { Component } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+
+@Component({
+  selector: 'app-sidebar',
+  imports: [RouterLink, RouterLinkActive],
+  templateUrl: './sidebar.html',
+  styleUrl: './sidebar.scss',
+})
+export class SidebarComponent {
+  protected readonly links = [
+    { label: 'Dashboard', path: '/dashboard', icon: '▦' },
+    { label: 'Orders', path: '/orders', icon: '↗' },
+    { label: 'Customers', path: '/customers', icon: '◎' },
+    { label: 'Products', path: '/products', icon: '□' },
+    { label: 'Settings', path: '/settings', icon: '⚙' },
+  ];
+}

@@ -1,0 +1,24 @@
+<section class="panel">
+  <div class="panel-header">
+    <div><h2>Revenue overview</h2><p>Monthly revenue performance</p></div>
+    <label class="sr-only" for="revenue-range">Revenue time range</label>
+    <select id="revenue-range" [value]="range()" (change)="changeRange($event)">
+      <option value="6m">Last 6 months</option>
+      <option value="12m">Last 12 months</option>
+      <option value="year">This year</option>
+    </select>
+  </div>
+  <div class="chart" role="img" [attr.aria-label]="'Monthly revenue chart, ' + range()">
+    <div class="y-axis"><span>{{ maxValue() | currency:'USD':'symbol':'1.0-0' }}</span><span>{{ (maxValue() / 2) | currency:'USD':'symbol':'1.0-0' }}</span><span>$0</span></div>
+    <div class="plot">
+      @for (point of points(); track point.label) {
+        <div class="bar-group">
+          <div class="bar-column">
+            <span class="bar" [style.height]="height(point.value)" [title]="point.label + ': ' + (point.value | currency)"></span>
+          </div>
+          <span class="bar-label">{{ point.label }}</span>
+        </div>
+      }
+    </div>
+  </div>
+</section>

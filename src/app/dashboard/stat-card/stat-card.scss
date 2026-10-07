@@ -1,0 +1,43 @@
+.stat-card {
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.stat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.stat-icon {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: #eef2ff;
+  color: #4f46e5;
+  font-weight: 700;
+}
+
+.stat-card > strong {
+  display: block;
+  margin-top: 14px;
+  font-size: 26px;
+}
+
+.stat-card > small {
+  display: block;
+  margin-top: 8px;
+  color: #059669;
+  font-size: 11px;
+}
+
+.stat-card > small.negative {
+  color: #b91c1c;
+}

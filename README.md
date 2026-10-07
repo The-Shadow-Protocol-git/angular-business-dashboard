@@ -1,59 +1,40 @@
-# AngularBusinessDashboard
+# Acme Admin — Business Dashboard
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.2.1.
+A standalone Angular business dashboard with lazy-loaded management screens for orders, customers, and products. It is self-contained and works without an external backend.
 
-## Development server
-
-To start a local development server, run:
+## Run locally
 
 ```bash
-ng serve
+npm install
+npm start
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Open `http://localhost:4200/`. The root path redirects to `/dashboard`.
 
-## Code scaffolding
+## Architecture
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- `src/app/layout/` contains the responsive sidebar and route-aware header.
+- `src/app/dashboard/` contains the dashboard page and reusable stat, revenue, and recent-order components.
+- `src/app/management/` contains shared entity list, detail, and validated create/edit experiences for all three business domains.
+- `src/app/core/models/` defines typed dashboard, order, customer, and product data.
+- `src/app/core/services/` contains domain services and the HTTP API boundary.
+- `src/app/core/data/` contains realistic sample data and the local `HttpBackend` implementation.
+
+The domain services use `HttpClient` against `/api`. `MockApiBackend` implements the dashboard and CRUD endpoints in memory, so the application can demonstrate loading, error, empty, and mutation flows without claiming a real server exists. Replace the `HttpBackend` provider in `app.config.ts` with the regular browser backend when connecting a real API.
+
+## Routes
+
+- `/dashboard`
+- `/orders`, `/orders/new`, `/orders/:id`, `/orders/:id/edit`
+- `/customers`, `/customers/new`, `/customers/:id`, `/customers/:id/edit`
+- `/products`, `/products/new`, `/products/:id`, `/products/:id/edit`
+- `/settings`
+
+## Validate
 
 ```bash
-ng generate component component-name
+npm test -- --watch=false
+npm run build
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+The mock backend is intentionally in-memory: changes last for the current app session and reset on reload. Authentication, persistence, and real server integration are outside this frontend demo.

@@ -1,0 +1,18 @@
+<section class="panel">
+  <div class="panel-header">
+    <div><h2>Recent orders</h2><p>Latest customer activity</p></div>
+    <a routerLink="/orders">View all</a>
+  </div>
+  <div class="orders">
+    @for (order of orders(); track order.id) {
+      <a class="order" [routerLink]="['/orders', order.id]">
+        <span class="order-avatar">{{ initials(order.customer.name) }}</span>
+        <span class="order-info"><strong>{{ order.customer.name }}</strong><small>#{{ order.id }} · {{ order.createdAt | date:'MMM d' }}</small></span>
+        <strong class="order-total">{{ order.total | currency }}</strong>
+        <span class="status" [class]="order.status">{{ order.status }}</span>
+      </a>
+    } @empty {
+      <p class="empty">No recent orders yet.</p>
+    }
+  </div>
+</section>

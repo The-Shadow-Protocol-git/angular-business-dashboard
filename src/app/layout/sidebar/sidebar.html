@@ -1,0 +1,21 @@
+<aside class="sidebar">
+  <a class="brand" routerLink="/dashboard" aria-label="Acme Admin dashboard">
+    <span class="brand-mark">A</span>
+    <span class="brand-copy"><strong>Acme Admin</strong><small>Business Dashboard</small></span>
+  </a>
+
+  <span class="nav-label">WORKSPACE</span>
+  <nav class="navigation" aria-label="Main navigation">
+    @for (link of links; track link.path) {
+      <a class="nav-item" [routerLink]="link.path" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: link.path === '/dashboard' }">
+        <span class="nav-icon" aria-hidden="true">{{ link.icon }}</span>
+        <span>{{ link.label }}</span>
+      </a>
+    }
+  </nav>
+
+  <div class="sidebar-footer">
+    <span class="online-dot"></span>
+    <span>All systems operational</span>
+  </div>
+</aside>
