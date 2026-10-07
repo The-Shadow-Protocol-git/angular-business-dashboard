@@ -1,0 +1,18 @@
+<section class="form-page"><a class="back-link" routerLink="/products">← Back to products</a><header class="form-heading"><p class="eyebrow">PRODUCTS</p><h2>{{ id ? 'Edit product' : 'New product' }}</h2><p>Manage product information, pricing, and inventory.</p></header>
+  @if (loading()) { <app-loading-state message="Loading product form…" /> }
+  @else if (error() && id) { <app-error-state [message]="error()" (retry)="ngOnInit()" /> }
+  @else {
+    <form class="card" [formGroup]="form" (ngSubmit)="save()" novalidate>
+      @if (error()) { <p class="form-error" role="alert">{{ error() }}</p> }
+      <div class="form-grid">
+        <label>Product name <span>*</span><input type="text" formControlName="name" placeholder="Product name" />@if (hasError('name')) { <small class="field-error">Name is required (maximum 100 characters).</small> }</label>
+        <label>SKU <span>*</span><input type="text" formControlName="sku" placeholder="SKU-000" />@if (hasError('sku')) { <small class="field-error">SKU is required (maximum 40 characters).</small> }</label>
+        <label>Price (USD) <span>*</span><input type="number" min="0.01" step="0.01" formControlName="price" placeholder="0.00" />@if (hasError('price')) { <small class="field-error">Enter a price greater than zero (up to 2 decimal places).</small> }</label>
+        <label>Stock quantity <span>*</span><input type="number" min="0" step="1" formControlName="stock" placeholder="0" />@if (hasError('stock')) { <small class="field-error">Enter a whole number of zero or more.</small> }</label>
+        <label>Category <span>*</span><input type="text" formControlName="category" placeholder="e.g. Accessories" />@if (hasError('category')) { <small class="field-error">Category is required (maximum 60 characters).</small> }</label>
+        <label>Status <span>*</span><select formControlName="status"><option value="active">Active</option><option value="inactive">Inactive</option></select></label>
+      </div>
+      <app-form-actions [saving]="saving()" [submitLabel]="id ? 'Save changes' : 'Create product'"><a formCancel class="button secondary" routerLink="/products">Cancel</a></app-form-actions>
+    </form>
+  }
+</section>

@@ -1,7 +1,10 @@
 import { HttpBackend, HttpErrorResponse, HttpEvent, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
-import { Customer, DashboardData, EntityType, Order, Product } from '../models/business.models';
+import { Customer, CustomerWriteRequest } from '../models/customer.model';
+import { DashboardData } from '../models/dashboard.model';
+import { Order, OrderWriteRequest } from '../models/order.model';
+import { Product, ProductWriteRequest } from '../models/product.model';
 import { MOCK_CUSTOMERS, MOCK_DASHBOARD, MOCK_ORDERS, MOCK_PRODUCTS } from './mock-data';
 
 @Injectable()
@@ -21,24 +24,24 @@ export class MockApiBackend implements HttpBackend {
     return this.handleEntity(path, id, request);
   }
 
-  private handleEntity(path: EntityType, id: string | undefined, request: HttpRequest<unknown>): Observable<HttpEvent<unknown>> {
+  private handleEntity(path: 'orders' | 'customers' | 'products', id: string | undefined, request: HttpRequest<unknown>): Observable<HttpEvent<unknown>> {
     if (path === 'orders') {
       if (request.method === 'GET') return id ? this.findById(this.orders, id) : this.response(this.orders);
       if (request.method === 'POST') {
-        const draft = request.body as Omit<Order, 'id' | 'createdAt' | 'customer'> & { customerId: string };
+        const draft = request.body as OrderWriteRequest;
         const customer = this.customers.find((item) => item.id === draft.customerId);
         if (!customer) return throwError(() => new Error('Select a valid customer.'));
-        const created: Order = { ...draft, items: draft.items ?? [], id: this.nextId('ORD', this.orders), createdAt: new Date().toISOString(), customer: { id: customer.id, name: customer.name, email: customer.email } };
+        const created: Order = { ...draft, id: this.nextId('ORD', this.orders), createdAt: new Date().toISOString(), customer: { id: customer.id, name: customer.name, email: customer.email } };
         this.orders = [created, ...this.orders];
         return this.response(created, 201);
       }
       if (id && request.method === 'PUT') {
         const index = this.orders.findIndex((item) => item.id === id);
         if (index < 0) return this.notFound('Order', id);
-        const draft = request.body as Partial<Order> & { customerId?: string };
-        const { customerId, ...updates } = draft;
-        const customer = customerId ? this.customers.find((item) => item.id === customerId) : undefined;
-        this.orders[index] = { ...this.orders[index], ...updates, customer: customer ? { id: customer.id, name: customer.name, email: customer.email } : this.orders[index].customer };
+        const draft = request.body as OrderWriteRequest;
+        const customer = this.customers.find((item) => item.id === draft.customerId);
+        if (!customer) return throwError(() => new Error('Select a valid customer.'));
+        this.orders[index] = { ...this.orders[index], ...draft, customer: { id: customer.id, name: customer.name, email: customer.email } };
         return this.response(this.orders[index]);
       }
       if (id && request.method === 'DELETE') {
@@ -50,14 +53,14 @@ export class MockApiBackend implements HttpBackend {
     if (path === 'customers') {
       if (request.method === 'GET') return id ? this.findById(this.customers, id) : this.response(this.customers);
       if (request.method === 'POST') {
-        const created = { ...(request.body as Omit<Customer, 'id' | 'createdAt'>), id: this.nextId('CUS', this.customers), createdAt: new Date().toISOString() };
+        const created: Customer = { ...(request.body as CustomerWriteRequest), id: this.nextId('CUS', this.customers), createdAt: new Date().toISOString() };
         this.customers = [created, ...this.customers];
         return this.response(created, 201);
       }
       if (id && request.method === 'PUT') {
         const index = this.customers.findIndex((item) => item.id === id);
         if (index < 0) return this.notFound('Customer', id);
-        this.customers[index] = { ...this.customers[index], ...(request.body as Partial<Customer>) };
+        this.customers[index] = { ...this.customers[index], ...(request.body as CustomerWriteRequest) };
         return this.response(this.customers[index]);
       }
       if (id && request.method === 'DELETE') {
@@ -69,14 +72,14 @@ export class MockApiBackend implements HttpBackend {
     if (path === 'products') {
       if (request.method === 'GET') return id ? this.findById(this.products, id) : this.response(this.products);
       if (request.method === 'POST') {
-        const created = { ...(request.body as Omit<Product, 'id'>), id: this.nextId('PRD', this.products) };
+        const created: Product = { ...(request.body as ProductWriteRequest), id: this.nextId('PRD', this.products) };
         this.products = [created, ...this.products];
         return this.response(created, 201);
       }
       if (id && request.method === 'PUT') {
         const index = this.products.findIndex((item) => item.id === id);
         if (index < 0) return this.notFound('Product', id);
-        this.products[index] = { ...this.products[index], ...(request.body as Partial<Product>) };
+        this.products[index] = { ...this.products[index], ...(request.body as ProductWriteRequest) };
         return this.response(this.products[index]);
       }
       if (id && request.method === 'DELETE') {

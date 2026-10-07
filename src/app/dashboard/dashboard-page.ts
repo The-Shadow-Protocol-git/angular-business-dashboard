@@ -1,6 +1,9 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
-import { DashboardData, RevenueRange } from '../core/models/business.models';
+import { DashboardData, RevenueRange } from '../core/models/dashboard.model';
+import { apiErrorMessage } from '../core/api/api-error';
 import { DashboardService } from '../core/services/dashboard.service';
+import { ErrorStateComponent } from '../shared/components/error-state/error-state';
+import { LoadingStateComponent } from '../shared/components/loading-state/loading-state';
 import { RecentOrdersComponent } from './recent-orders/recent-orders';
 import { RevenueOverviewComponent } from './revenue-overview/revenue-overview';
 import { StatCardComponent } from './stat-card/stat-card';
@@ -16,7 +19,7 @@ interface StatCardView {
 
 @Component({
   selector: 'app-dashboard-page',
-  imports: [StatCardComponent, RevenueOverviewComponent, RecentOrdersComponent],
+  imports: [StatCardComponent, RevenueOverviewComponent, RecentOrdersComponent, ErrorStateComponent, LoadingStateComponent],
   templateUrl: './dashboard-page.html',
   styleUrl: './dashboard-page.scss',
 })
@@ -47,7 +50,7 @@ export class DashboardPage implements OnInit {
     this.error.set('');
     this.dashboard.load().subscribe({
       next: (data) => { this.data.set(data); this.loading.set(false); },
-      error: () => { this.error.set('We could not load dashboard data. Please try again.'); this.loading.set(false); },
+      error: (error: unknown) => { this.error.set(apiErrorMessage(error, 'We could not load dashboard data. Please try again.')); this.loading.set(false); },
     });
   }
 

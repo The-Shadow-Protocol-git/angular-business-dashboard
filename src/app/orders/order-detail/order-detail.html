@@ -1,0 +1,24 @@
+<section class="detail-page">
+  <a class="back-link" routerLink="/orders">← Back to orders</a>
+  @if (loading()) { <app-loading-state message="Loading order details…" /> }
+  @else if (error()) { <app-error-state [message]="error()" (retry)="load()" /> }
+  @else if (order(); as item) {
+    <section class="card">
+      <header class="detail-header">
+        <div><p class="eyebrow">{{ item.id }}</p><h2>Order details</h2><app-status-badge [status]="item.status" /></div>
+        <a class="button primary" [routerLink]="['/orders', item.id, 'edit']">Edit order</a>
+      </header>
+      <div class="summary-grid">
+        <div><span>Customer</span><strong>{{ item.customer.name }}</strong><small>{{ item.customer.email }}</small></div>
+        <div><span>Order date</span><strong>{{ item.createdAt | date:'mediumDate' }}</strong><small>{{ item.createdAt | date:'shortTime' }}</small></div>
+        <div><span>Total</span><strong>{{ item.total | currency }}</strong></div>
+      </div>
+      <h3>Items</h3>
+      <div class="items">
+        @for (line of item.items; track line.productId) {
+          <div class="item"><span><strong>{{ line.productName }}</strong><small>{{ line.quantity }} × {{ line.unitPrice | currency }}</small></span><strong>{{ line.quantity * line.unitPrice | currency }}</strong></div>
+        } @empty { <p class="no-items">This order has no line items.</p> }
+      </div>
+    </section>
+  }
+</section>

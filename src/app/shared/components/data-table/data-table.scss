@@ -1,0 +1,14 @@
+:host { display: block; }
+.table-scroll { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; text-align: left; font-size: 12px; }
+th { padding: 11px 16px; background: #f9fafb; color: #6b7280; font-size: 10px; font-weight: 600; white-space: nowrap; }
+td { padding: 13px 16px; border-top: 1px solid #f0f1f3; color: #4b5563; white-space: nowrap; }
+td.primary-cell { color: #172033; font-weight: 600; }
+.sort-button { padding: 0; border: 0; background: none; color: inherit; font: inherit; cursor: pointer; }
+.actions { display: flex; gap: 10px; }
+.action-link { padding: 0; border: 0; background: none; color: #4f46e5; font: inherit; font-size: 11px; cursor: pointer; }
+.action-link.destructive { color: #b91c1c; }
+.pagination { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 18px; border-top: 1px solid #eef0f4; color: #6b7280; font-size: 11px; }
+.pagination > div { display: flex; align-items: center; gap: 12px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+@media (max-width: 600px) { .pagination { align-items: flex-start; flex-direction: column; } }

@@ -1,0 +1,47 @@
+<div class="table-scroll">
+  <table>
+    <thead>
+      <tr>
+        @for (column of columns(); track column.key) {
+          <th scope="col">
+            @if (column.sortValue) {
+              <button class="sort-button" type="button" (click)="sort(column)">
+                {{ column.header }} <span aria-hidden="true">{{ sortKey() === column.key ? (ascending() ? '↑' : '↓') : '↕' }}</span>
+              </button>
+            } @else {
+              {{ column.header }}
+            }
+          </th>
+        }
+        <th scope="col"><span class="sr-only">Actions</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (row of visibleRows(); track rowKey(row)) {
+        <tr>
+          @for (column of columns(); track column.key; let first = $first) {
+            <td [class.primary-cell]="first">
+              @if (column.status) { <app-status-badge [status]="column.cell(row)" /> }
+              @else { {{ column.cell(row) }} }
+            </td>
+          }
+          <td class="actions">
+            <button class="action-link" type="button" (click)="view.emit(row)" [attr.aria-label]="'View ' + rowKey(row)">View</button>
+            <button class="action-link" type="button" (click)="edit.emit(row)" [attr.aria-label]="'Edit ' + rowKey(row)">Edit</button>
+            @if (canRemoveRow(row)) {
+              <button class="action-link destructive" type="button" (click)="remove.emit(row)" [attr.aria-label]="removeLabel() + ' ' + rowKey(row)">{{ removeLabel() }}</button>
+            }
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
+<footer class="pagination">
+  <span>Showing {{ start() }}–{{ end() }} of {{ sortedRows().length }}</span>
+  <div>
+    <button class="button secondary" type="button" [disabled]="page() === 1" (click)="setPage(page() - 1)">Previous</button>
+    <span aria-live="polite">Page {{ page() }} of {{ pageCount() }}</span>
+    <button class="button secondary" type="button" [disabled]="page() >= pageCount()" (click)="setPage(page() + 1)">Next</button>
+  </div>
+</footer>

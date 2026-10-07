@@ -1,6 +1,6 @@
 import { Component, computed, input, output } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
-import { RevenuePoint, RevenueRange } from '../../core/models/business.models';
+import { RevenuePoint, RevenueRange } from '../../core/models/dashboard.model';
 
 @Component({
   selector: 'app-revenue-overview',

@@ -1,8 +1,8 @@
 <section class="dashboard">
   @if (loading()) {
-    <div class="state-panel" role="status"><span class="spinner"></span>Loading your business overview…</div>
+    <app-loading-state message="Loading your business overview…" />
   } @else if (error()) {
-    <div class="state-panel error-state" role="alert"><p>{{ error() }}</p><button class="button primary" (click)="load()">Try again</button></div>
+    <app-error-state [message]="error()" (retry)="load()" />
   } @else if (data(); as dashboard) {
     <section class="stats-grid" aria-label="Business performance">
       @for (stat of stats(); track stat.label) {

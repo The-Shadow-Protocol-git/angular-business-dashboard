@@ -1,4 +1,7 @@
-import { Customer, DashboardData, Order, Product } from '../models/business.models';
+import { Customer } from '../models/customer.model';
+import { DashboardData } from '../models/dashboard.model';
+import { Order } from '../models/order.model';
+import { Product } from '../models/product.model';
 
 export const MOCK_CUSTOMERS: Customer[] = [
   { id: 'CUS-2048', name: 'Olivia Rhye', email: 'olivia@example.com', phone: '+1 415 555 0184', status: 'active', createdAt: '2026-09-28T10:00:00Z' },

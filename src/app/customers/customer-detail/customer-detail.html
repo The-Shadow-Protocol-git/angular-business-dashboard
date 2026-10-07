@@ -1,0 +1,10 @@
+<section class="detail-page"><a class="back-link" routerLink="/customers">← Back to customers</a>
+  @if (loading()) { <app-loading-state message="Loading customer…" /> }
+  @else if (error()) { <app-error-state [message]="error()" (retry)="load()" /> }
+  @else if (customer(); as item) {
+    <section class="card">
+      <header class="detail-header"><div><p class="eyebrow">{{ item.id }}</p><h2>{{ item.name }}</h2><app-status-badge [status]="item.status" /></div><a class="button primary" [routerLink]="['/customers', item.id, 'edit']">Edit customer</a></header>
+      <dl><div><dt>Email</dt><dd><a [href]="'mailto:' + item.email">{{ item.email }}</a></dd></div><div><dt>Phone</dt><dd>{{ item.phone || '—' }}</dd></div><div><dt>Customer since</dt><dd>{{ item.createdAt | date:'mediumDate' }}</dd></div></dl>
+    </section>
+  }
+</section>

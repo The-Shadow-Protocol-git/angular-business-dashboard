@@ -1,0 +1,25 @@
+<section class="page">
+  <div class="page-heading">
+    <div><p class="eyebrow">WORKSPACE</p><h2>Orders</h2><p class="subheading">Review and manage customer orders.</p></div>
+    <a class="button primary" routerLink="/orders/new">＋ Create order</a>
+  </div>
+  <section class="panel">
+    <div class="toolbar">
+      <label class="search"><span aria-hidden="true">⌕</span><input type="search" placeholder="Search orders…" aria-label="Search orders" [value]="query()" (input)="search($event)" /></label>
+      <label class="filter">Status
+        <select aria-label="Filter orders by status" [value]="status()" (change)="filterStatus($event)">
+          <option value="all">All statuses</option><option value="pending">Pending</option><option value="processing">Processing</option><option value="completed">Completed</option><option value="cancelled">Cancelled</option>
+        </select>
+      </label>
+    </div>
+    @if (loading()) {
+      <app-loading-state message="Loading orders…" />
+    } @else if (error()) {
+      <app-error-state [message]="error()" (retry)="load()" />
+    } @else if (visibleOrders().length === 0) {
+      <app-empty-state [title]="orders().length ? 'No matching orders' : 'No orders yet'" [description]="orders().length ? 'Try changing the search or status filter.' : 'Create an order to see customer purchases here.'" />
+    } @else {
+      <app-data-table [rows]="visibleOrders()" [columns]="columns" [trackBy]="orderId" [removeLabel]="'Cancel'" [canRemove]="canCancel" (view)="viewOrder($event)" (edit)="editOrder($event)" (remove)="cancelOrder($event)" />
+    }
+  </section>
+</section>

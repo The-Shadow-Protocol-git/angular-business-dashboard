@@ -1,0 +1,10 @@
+<section class="detail-page"><a class="back-link" routerLink="/products">← Back to products</a>
+  @if (loading()) { <app-loading-state message="Loading product…" /> }
+  @else if (error()) { <app-error-state [message]="error()" (retry)="load()" /> }
+  @else if (product(); as item) {
+    <section class="card">
+      <header class="detail-header"><div><p class="eyebrow">{{ item.id }} · {{ item.sku }}</p><h2>{{ item.name }}</h2><app-status-badge [status]="item.stock === 0 ? 'out of stock' : item.status" /></div><a class="button primary" [routerLink]="['/products', item.id, 'edit']">Edit product</a></header>
+      <dl><div><dt>Category</dt><dd>{{ item.category }}</dd></div><div><dt>Price</dt><dd>{{ item.price | currency }}</dd></div><div><dt>Stock on hand</dt><dd>{{ item.stock }}</dd></div><div><dt>Availability</dt><dd>{{ item.stock === 0 ? 'Out of stock' : item.stock <= 10 ? 'Low stock' : 'In stock' }}</dd></div></dl>
+    </section>
+  }
+</section>

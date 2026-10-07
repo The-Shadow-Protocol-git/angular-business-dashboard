@@ -1,0 +1,3 @@
+@use '../../shared/styles/management-list' as management-list;
+
+@include management-list.layout;

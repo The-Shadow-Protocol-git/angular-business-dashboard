@@ -1,0 +1,27 @@
+<section class="form-page">
+  <a class="back-link" routerLink="/orders">← Back to orders</a>
+  <header class="form-heading"><p class="eyebrow">ORDERS</p><h2>{{ title }}</h2><p>Create and manage customer purchases.</p></header>
+  @if (loading()) { <app-loading-state message="Loading order form…" /> }
+  @else if (error() && !customers().length && !products().length) { <app-error-state [message]="error()" (retry)="ngOnInit()" /> }
+  @else {
+    <form class="card" [formGroup]="form" (ngSubmit)="save()" novalidate>
+      @if (error()) { <p class="form-error" role="alert">{{ error() }}</p> }
+      <div class="form-grid">
+        <label>Customer <span>*</span>
+          <select formControlName="customerId"><option value="">Select a customer</option>@for (customer of customers(); track customer.id) { <option [value]="customer.id">{{ customer.name }} — {{ customer.email }}</option> }</select>
+          @if (hasError('customerId')) { <small class="field-error">Choose a customer.</small> }
+        </label>
+        <label>Product <span>*</span>
+          <select formControlName="productId" (change)="productChanged()"><option value="">Select a product</option>@for (product of products(); track product.id) { <option [value]="product.id" [disabled]="product.status !== 'active' || product.stock < 1">{{ product.name }} — {{ product.price | currency }} ({{ product.stock }} available)</option> }</select>
+          @if (hasError('productId')) { <small class="field-error">Choose an available product.</small> }
+        </label>
+        <label>Quantity <span>*</span><input type="number" min="1" step="1" formControlName="quantity" (input)="quantityChanged()" />@if (hasError('quantity')) { <small class="field-error">Enter a whole quantity within available stock.</small> }</label>
+        <label>Total (USD) <span>*</span><input type="number" readonly formControlName="total" aria-describedby="order-total-help" /><small id="order-total-help" class="hint">Calculated from product price and quantity.</small>@if (hasError('total')) { <small class="field-error">Select a product and quantity.</small> }</label>
+        <label>Status <span>*</span><select formControlName="status"><option value="pending">Pending</option><option value="processing">Processing</option><option value="completed">Completed</option><option value="cancelled">Cancelled</option></select></label>
+      </div>
+      <app-form-actions [saving]="saving()" [submitLabel]="id ? 'Save changes' : 'Create order'">
+        <a formCancel class="button secondary" routerLink="/orders">Cancel</a>
+      </app-form-actions>
+    </form>
+  }
+</section>

@@ -1,7 +1,7 @@
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Order } from '../../core/models/business.models';
+import { Order } from '../../core/models/order.model';
 
 @Component({
   selector: 'app-recent-orders',

@@ -1,0 +1,16 @@
+<section class="form-page"><a class="back-link" routerLink="/customers">← Back to customers</a><header class="form-heading"><p class="eyebrow">CUSTOMERS</p><h2>{{ id ? 'Edit customer' : 'New customer' }}</h2><p>Keep customer contact details up to date.</p></header>
+  @if (loading()) { <app-loading-state message="Loading customer form…" /> }
+  @else if (error() && id) { <app-error-state [message]="error()" (retry)="ngOnInit()" /> }
+  @else {
+    <form class="card" [formGroup]="form" (ngSubmit)="save()" novalidate>
+      @if (error()) { <p class="form-error" role="alert">{{ error() }}</p> }
+      <div class="form-grid">
+        <label>Full name <span>*</span><input type="text" autocomplete="name" formControlName="name" placeholder="Customer name" />@if (hasError('name')) { <small class="field-error">Name is required (maximum 100 characters).</small> }</label>
+        <label>Email address <span>*</span><input type="email" autocomplete="email" formControlName="email" placeholder="name@company.com" />@if (hasError('email')) { <small class="field-error">Enter a valid email address.</small> }</label>
+        <label>Phone number<input type="tel" autocomplete="tel" formControlName="phone" placeholder="+1 555 000 0000" />@if (hasError('phone')) { <small class="field-error">Phone number cannot exceed 30 characters.</small> }</label>
+        <label>Status <span>*</span><select formControlName="status"><option value="active">Active</option><option value="inactive">Inactive</option></select></label>
+      </div>
+      <app-form-actions [saving]="saving()" [submitLabel]="id ? 'Save changes' : 'Create customer'"><a formCancel class="button secondary" routerLink="/customers">Cancel</a></app-form-actions>
+    </form>
+  }
+</section>

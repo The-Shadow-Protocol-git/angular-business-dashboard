@@ -1,0 +1,13 @@
+<section class="page">
+  <div class="page-heading"><div><p class="eyebrow">WORKSPACE</p><h2>Customers</h2><p class="subheading">Manage customer profiles and account status.</p></div><a class="button primary" routerLink="/customers/new">＋ Add customer</a></div>
+  <section class="panel">
+    <div class="toolbar">
+      <label class="search"><span aria-hidden="true">⌕</span><input type="search" placeholder="Search customers…" aria-label="Search customers" [value]="query()" (input)="search($event)" /></label>
+      <label class="filter">Status <select aria-label="Filter customers by status" [value]="status()" (change)="filterStatus($event)"><option value="all">All statuses</option><option value="active">Active</option><option value="inactive">Inactive</option></select></label>
+    </div>
+    @if (loading()) { <app-loading-state message="Loading customers…" /> }
+    @else if (error()) { <app-error-state [message]="error()" (retry)="load()" /> }
+    @else if (visibleCustomers().length === 0) { <app-empty-state [title]="customers().length ? 'No matching customers' : 'No customers yet'" [description]="customers().length ? 'Try changing the search or status filter.' : 'Add a customer to get started.'" /> }
+    @else { <app-data-table [rows]="visibleCustomers()" [columns]="columns" [trackBy]="customerId" (view)="viewCustomer($event)" (edit)="editCustomer($event)" (remove)="deleteCustomer($event)" /> }
+  </section>
+</section>
