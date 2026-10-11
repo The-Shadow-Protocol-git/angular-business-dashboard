@@ -6,6 +6,18 @@ The application demonstrates a feature-oriented Angular architecture featuring t
 
     ℹ️ Portfolio Project Note: This is a frontend portfolio project. The application uses an HTTP-shaped, in-memory backend so the frontend can demonstrate realistic API interactions without requiring an external server.
 
+## Screenshots
+
+### Dashboard
+
+![Business dashboard overview](screenshots/Dashboard.jpg)
+
+### Orders Management
+
+![Orders management table](screenshots/orders.jpg)
+![Orders management table](screenshots/order%20details.jpg)
+![Orders management table](screenshots/create%20order.jpg)
+
 ✨ Features
 
 • Dashboard Overview: Displays critical business KPIs, a revenue overview chart, and recent orders.
